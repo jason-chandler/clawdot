@@ -41,7 +41,7 @@
 (let ((godot-cpp-headers (collect-godot-cpp-headers)))
   (eval `(claw:defwrapper (:aw-godot
                     (:system :clawdot/wrapper)
-                    (:headers "godot_cpp/classes/node3d.hpp")
+                    ,godot-cpp-headers
                     (:includes :godot-includes :godot-gen-includes)
                     (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
                               ((:and :x86-64 :windows) "x86_64-pc-windows-gnu"))
@@ -51,7 +51,8 @@
                      :bindings-path "/home/jason/common-lisp/clawdot/src/bindings/")
                     (:language :c++)
                     (:standard :c++17)
-                    (:include-definitions "^godot::.*" "GDExtensionPropertyInfo" ".*char.*" ".*type" ".*size.*" ".*_ptr.*" ".*atomic.*"))
+                    (:include-definitions "^godot::.*" "GDExtensionPropertyInfo")
+                    (:exclude-definitions ".*atomic.*" ".*_gde_.*"))
     :in-package :%aw-godot
     :trim-enum-prefix t
     :recognize-bitfields t
