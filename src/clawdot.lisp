@@ -24,63 +24,71 @@
     ;; Expand the original macro within the handler
     (macroexpand `(iffi:defitype ,name ,c-type ,doc))))
 
+(defun list-hpp-files (directory)
+  (uiop:directory-files
+   (uiop:merge-pathnames* "*.hpp" directory)))
 
 
+(defun collect-godot-cpp-headers ()
+  (labels ((remove-prefix (str)
+             (let* ((path-root (namestring (asdf:system-relative-pathname :clawdot "./src/godot-cpp/gen/include/")))
+                    (full-path (namestring str))
+                    (pos (search path-root full-path)))
+               (subseq full-path (+ pos (length path-root))))))
+  (cons :headers
+        (mapcar #'remove-prefix (list-hpp-files (asdf:system-relative-pathname :clawdot "./src/godot-cpp/gen/include/godot_cpp/classes/"))))))
 
-(claw:defwrapper (:aw-godot
-                  (:system :clawdot/wrapper)
-                  (:headers  "godot-cpp/include/godot_cpp/godot.hpp"
-                             ;; "godot-cpp/gen/include/godot_cpp/variant/built_in_types.hpp"
-                             ;; "godot-cpp/gen/include/godot_cpp/variant/built_in_binds.hpp"
-                             ;; "godot-cpp/gen/include/godot_cpp/variant/built_vararg_methods.hpp"
-                             ;; "godot-cpp/gen/include/godot_cpp/variant/utility_functions.hpp"
-                             "godot-cpp/gen/include/godot_cpp/classes/gd_extension.hpp"
-                             "godot-cpp/gdextension/gdextension_interface.h")
-                  (:includes :godot-includes :godot-gen-includes)
-                  (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
-                            ((:and :x86-64 :windows) "x86_64-pc-windows-gnu"))
-                  (:persistent :godot-bindings
-                   :depends-on (:claw-utils)
-                   :asd-path "/home/jason/common-lisp/clawdot/src/godot-bindings.asd"
-                   :bindings-path "/home/jason/common-lisp/clawdot/src/bindings/")
-                  (:language :c++)
-                  (:standard :c++17)
-                  (:include-definitions "^godot::.*" ".*sa.*" ".*SA.*" ".*div.*" "GDExtensionPropertyInfo" ".*char.*" ".*t$" ".*type" ".*size.*" ".*_ptr.*" ".*atomic.*"))
-  :in-package :%aw-godot
-  :trim-enum-prefix t
-  :recognize-bitfields t
-  :recognize-strings t
-  :with-adapter (:static
-                 :path "lib/adapter.cxx")
-  :symbolicate-names (:in-pipeline
-                      (:by-removing-complex-prefix "^m[A-Z]\\w*" 1)
-                      (:by-removing-prefixes "gd"))
-  :override-types ((:string claw-utils:claw-string)
-                   (:pointer claw-utils:claw-pointer)
-                   (%AW-GODOT::CHAR16 :char16_t)
-                   (%AW-GODOT::CHAR32 :char32_t)
-                   (%AW-GODOT::|C:@SA@--FSID-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@GD-EXTENSION-PROPERTY-INFO| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@MAX-ALIGN-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@CPU-SET-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@--MBSTATE-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@FD-SET| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@--SIGSET-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@PTHREAD-BARRIER-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@PTHREAD-BARRIERATTR-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@PTHREAD-COND-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@PTHREAD-MUTEX-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@--PTHREAD-UNWIND-BUF-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@PTHREAD-CONDATTR-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@PTHREAD-MUTEXATTR-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@PTHREAD-RWLOCK-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@PTHREAD-RWLOCKATTR-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::STD+LIST+SIZE-TYPE (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::STD+-RB-TREE-CONST-ITERATOR+-BASE-PTR (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@UA@--ATOMIC-WIDE-COUNTER| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@DIV-T| (claw-utils:claw-pointer :void))
-                   (%AW-GODOT::|C:@SA@LDIV-T| (claw-utils:claw-pointer :void))
-                   ))
+(namestring (asdf:system-relative-pathname :clawdot "./src/"))
+
+(let ((godot-cpp-headers (collect-godot-cpp-headers)))
+  (eval `(claw:defwrapper (:aw-godot
+                    (:system :clawdot/wrapper)
+                    ,godot-cpp-headers
+                    (:includes :godot-includes :godot-gen-includes)
+                    (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
+                              ((:and :x86-64 :windows) "x86_64-pc-windows-gnu"))
+                    (:persistent :godot-bindings
+                     :depends-on (:claw-utils)
+                     :asd-path "/home/jason/common-lisp/clawdot/src/godot-bindings.asd"
+                     :bindings-path "/home/jason/common-lisp/clawdot/src/bindings/")
+                    (:language :c++)
+                    (:standard :c++17)
+                    (:include-definitions "^godot::.*" ".*sa.*" ".*SA.*" ".*div.*" "GDExtensionPropertyInfo" ".*char.*" ".*t$" ".*type" ".*size.*" ".*_ptr.*" ".*atomic.*"))
+    :in-package :%aw-godot
+    :trim-enum-prefix t
+    :recognize-bitfields t
+    :recognize-strings t
+    :with-adapter (:static
+                   :path "lib/adapter.cxx")
+    :symbolicate-names (:in-pipeline
+                        (:by-removing-complex-prefix "^m[A-Z]\\w*" 1)
+                        (:by-removing-prefixes "gd"))
+    :override-types ((:string claw-utils:claw-string)
+                     (:pointer claw-utils:claw-pointer)
+                     (%AW-GODOT::CHAR16 :char16_t)
+                     (%AW-GODOT::CHAR32 :char32_t)
+                     (%AW-GODOT::|C:@SA@--FSID-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@GD-EXTENSION-PROPERTY-INFO| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@MAX-ALIGN-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@CPU-SET-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@--MBSTATE-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@FD-SET| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@--SIGSET-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@PTHREAD-BARRIER-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@PTHREAD-BARRIERATTR-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@PTHREAD-COND-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@PTHREAD-MUTEX-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@--PTHREAD-UNWIND-BUF-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@PTHREAD-CONDATTR-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@PTHREAD-MUTEXATTR-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@PTHREAD-RWLOCK-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@PTHREAD-RWLOCKATTR-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::STD+LIST+SIZE-TYPE (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::STD+-RB-TREE-CONST-ITERATOR+-BASE-PTR (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@UA@--ATOMIC-WIDE-COUNTER| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@DIV-T| (claw-utils:claw-pointer :void))
+                     (%AW-GODOT::|C:@SA@LDIV-T| (claw-utils:claw-pointer :void))
+                     ))))
 
 ;; (:char16 :uint16)
                    ;; (:CHAR16 :uint16)
@@ -100,7 +108,7 @@
 (defun generate-and-load-wrapper ()
   (handler-bind ((cffi::foreign-type-error #'handle-undefined-foreign-type))
     (claw:generate-wrapper :aw-godot)
-    (replace-iffi-defitype-in-directory #P"./lib")
+    ;;(replace-iffi-defitype-in-directory #P"./lib")
     (claw:load-wrapper :aw-godot)))
 
 
