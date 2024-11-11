@@ -38,12 +38,10 @@
   (cons :headers
         (mapcar #'remove-prefix (list-hpp-files (asdf:system-relative-pathname :clawdot "./src/godot-cpp/gen/include/godot_cpp/classes/"))))))
 
-(namestring (asdf:system-relative-pathname :clawdot "./src/"))
-
 (let ((godot-cpp-headers (collect-godot-cpp-headers)))
   (eval `(claw:defwrapper (:aw-godot
                     (:system :clawdot/wrapper)
-                    ,godot-cpp-headers
+                    (:headers "godot_cpp/classes/node3d.hpp")
                     (:includes :godot-includes :godot-gen-includes)
                     (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
                               ((:and :x86-64 :windows) "x86_64-pc-windows-gnu"))
@@ -53,7 +51,7 @@
                      :bindings-path "/home/jason/common-lisp/clawdot/src/bindings/")
                     (:language :c++)
                     (:standard :c++17)
-                    (:include-definitions "^godot::.*" ".*sa.*" ".*SA.*" ".*div.*" "GDExtensionPropertyInfo" ".*char.*" ".*t$" ".*type" ".*size.*" ".*_ptr.*" ".*atomic.*"))
+                    (:include-definitions "^godot::.*" "GDExtensionPropertyInfo" ".*char.*" ".*type" ".*size.*" ".*_ptr.*" ".*atomic.*"))
     :in-package :%aw-godot
     :trim-enum-prefix t
     :recognize-bitfields t
@@ -67,27 +65,6 @@
                      (:pointer claw-utils:claw-pointer)
                      (%AW-GODOT::CHAR16 :char16_t)
                      (%AW-GODOT::CHAR32 :char32_t)
-                     (%AW-GODOT::|C:@SA@--FSID-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@GD-EXTENSION-PROPERTY-INFO| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@MAX-ALIGN-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@CPU-SET-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@--MBSTATE-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@FD-SET| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@--SIGSET-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@PTHREAD-BARRIER-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@PTHREAD-BARRIERATTR-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@PTHREAD-COND-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@PTHREAD-MUTEX-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@--PTHREAD-UNWIND-BUF-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@PTHREAD-CONDATTR-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@PTHREAD-MUTEXATTR-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@PTHREAD-RWLOCK-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@PTHREAD-RWLOCKATTR-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::STD+LIST+SIZE-TYPE (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::STD+-RB-TREE-CONST-ITERATOR+-BASE-PTR (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@UA@--ATOMIC-WIDE-COUNTER| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@DIV-T| (claw-utils:claw-pointer :void))
-                     (%AW-GODOT::|C:@SA@LDIV-T| (claw-utils:claw-pointer :void))
                      ))))
 
 ;; (:char16 :uint16)
