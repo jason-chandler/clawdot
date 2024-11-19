@@ -52,7 +52,7 @@
                     (:language :c++)
                     (:standard :c++17)
                     (:include-definitions "^godot::.*" "GDExtensionPropertyInfo")
-                    (:exclude-definitions ".*atomic.*" ".*_gde_.*"))
+                    (:exclude-definitions "^godot::.*::_.*" "godot::EditorPlugins.*" "^godot::internal::.*" "^godot::GetTypeInfo.*" "^godot::ClassDB.*" ".*_MethodBindings" ".*atomic.*" ".*_gde_.*"))
     :in-package :%aw-godot
     :trim-enum-prefix t
     :recognize-bitfields t
@@ -60,12 +60,14 @@
     :with-adapter (:static
                    :path "lib/adapter.cxx")
     :symbolicate-names (:in-pipeline
-                        (:by-removing-complex-prefix "^m[A-Z]\\w*" 1)
+                        ;; (:by-removing-complex-prefix "^m[A-Z]\\w*" 1)
                         (:by-removing-prefixes "gd"))
     :override-types ((:string claw-utils:claw-string)
                      (:pointer claw-utils:claw-pointer)
-                     (%AW-GODOT::CHAR16 :char16_t)
-                     (%AW-GODOT::CHAR32 :char32_t)
+		     (:char16 "char16_t")
+		     (:char32 "char32_t")
+                     (%AW-GODOT::CHAR16 "char16_t")
+                     (%AW-GODOT::CHAR32 "char32_t")
                      ))))
 
 ;; (:char16 :uint16)
