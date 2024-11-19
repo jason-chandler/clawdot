@@ -38,10 +38,12 @@
   (cons :headers
         (mapcar #'remove-prefix (list-hpp-files (asdf:system-relative-pathname :clawdot "./src/godot-cpp/gen/include/godot_cpp/classes/"))))))
 
+(princ (collect-godot-cpp-headers))
+
 (let ((godot-cpp-headers (collect-godot-cpp-headers)))
   (eval `(claw:defwrapper (:aw-godot
                     (:system :clawdot/wrapper)
-                    ,godot-cpp-headers
+                    (:headers "godot_cpp/classes/")
                     (:includes :godot-includes :godot-gen-includes)
                     (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
                               ((:and :x86-64 :windows) "x86_64-pc-windows-gnu"))
@@ -69,6 +71,116 @@
                      (%AW-GODOT::CHAR16 "char16_t")
                      (%AW-GODOT::CHAR32 "char32_t")
                      ))))
+
+(claw:defwrapper (:aw-godot
+                    (:system :clawdot/wrapper)
+                    (:headers "godot_cpp/classes/animatable_body2d.hpp"
+                              "godot_cpp/classes/animatable_body3d.hpp"
+                              "godot_cpp/classes/animation_player.hpp"
+                              "godot_cpp/classes/area2d.hpp"
+                              "godot_cpp/classes/area3d.hpp"
+                              "godot_cpp/classes/audio_listener2d.hpp"
+                              "godot_cpp/classes/audio_listener3d.hpp"
+                              "godot_cpp/classes/box_shape3d.hpp"
+                              "godot_cpp/classes/camera2d.hpp"
+                              "godot_cpp/classes/camera3d.hpp"
+                              "godot_cpp/classes/character_body2d.hpp"
+                              "godot_cpp/classes/character_body3d.hpp"
+                              "godot_cpp/classes/collision_shape2d.hpp"
+                              "godot_cpp/classes/collision_shape3d.hpp"
+                              "godot_cpp/classes/cylinder_shape3d.hpp"
+                              "godot_cpp/classes/input_event_action.hpp"
+                              "godot_cpp/classes/input_event_key.hpp"
+                              "godot_cpp/classes/input_event.hpp"
+                              "godot_cpp/classes/input_event_joypad_button.hpp"
+                              "godot_cpp/classes/input_event_joypad_motion.hpp"
+                              "godot_cpp/classes/input_event_mouse_button.hpp"
+                              "godot_cpp/classes/input_event_mouse_motion.hpp"
+                              "godot_cpp/classes/input_event_mouse.hpp"
+                              "godot_cpp/classes/kinematic_collision2d.hpp"
+                              "godot_cpp/classes/kinematic_collision3d.hpp"
+                              "godot_cpp/classes/light2d.hpp"
+                              "godot_cpp/classes/light3d.hpp"
+                              "godot_cpp/classes/material.hpp"
+                              "godot_cpp/classes/mesh_instance2d.hpp"
+                              "godot_cpp/classes/mesh_instance3d.hpp"
+                              "godot_cpp/classes/node2d.hpp"
+                              "godot_cpp/classes/node3d.hpp"
+                              "godot_cpp/classes/object.hpp"
+                              "godot_cpp/classes/path2d.hpp"
+                              "godot_cpp/classes/path3d.hpp"
+                              "godot_cpp/classes/ray_cast2d.hpp"
+                              "godot_cpp/classes/ray_cast3d.hpp"
+                              "godot_cpp/classes/rectangle_shape2d.hpp"
+                              "godot_cpp/classes/resource_importer_image_font.hpp"
+                              "godot_cpp/classes/resource_importer_image.hpp"
+                              "godot_cpp/classes/resource_importer_mp3.hpp"
+                              "godot_cpp/classes/resource_importer_obj.hpp"
+                              "godot_cpp/classes/resource_importer_ogg_vorbis.hpp"
+                              "godot_cpp/classes/resource_importer_scene.hpp"
+                              "godot_cpp/classes/rigid_body2d.hpp"
+                              "godot_cpp/classes/rigid_body3d.hpp"
+                              "godot_cpp/classes/scene_tree.hpp"
+                              "godot_cpp/classes/sphere_shape3d.hpp"
+                              "godot_cpp/classes/sprite2d.hpp"
+                              "godot_cpp/classes/sprite3d.hpp"
+                              "godot_cpp/classes/standard_material3d.hpp"
+                              "godot_cpp/classes/static_body2d.hpp"
+                              "godot_cpp/classes/static_body3d.hpp"
+                              "godot_cpp/variant/aabb.hpp"
+                              "godot_cpp/variant/array.hpp"
+                              "godot_cpp/variant/array_helpers.hpp"
+                              "godot_cpp/variant/basis.hpp"
+                              "godot_cpp/variant/builtin_types.hpp"
+                              "godot_cpp/variant/callable.hpp"
+                              "godot_cpp/variant/char_string.hpp"
+                              "godot_cpp/variant/char_utils.hpp"
+                              "godot_cpp/variant/dictionary.hpp"
+                              "godot_cpp/variant/plane.hpp"
+                              "godot_cpp/variant/projection.hpp"
+                              "godot_cpp/variant/quaternion.hpp"
+                              "godot_cpp/variant/rect2.hpp"
+                              "godot_cpp/variant/rect2i.hpp"
+                              "godot_cpp/variant/string.hpp"
+                              "godot_cpp/variant/string_name.hpp"
+                              "godot_cpp/variant/transform2d.hpp"
+                              "godot_cpp/variant/transform3d.hpp"
+                              "godot_cpp/variant/typed_array.hpp"
+                              "godot_cpp/variant/utility_functions.hpp"
+                              "godot_cpp/variant/variant.hpp"
+                              "godot_cpp/variant/vector3.hpp"
+                              "godot_cpp/variant/vector3i.hpp"
+                              "godot_cpp/variant/vector4.hpp"
+                              "godot_cpp/variant/vector4i.hpp"
+                              )
+                    (:includes :godot-includes :godot-gen-includes)
+                    (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
+                              ((:and :x86-64 :windows) "x86_64-pc-windows-gnu"))
+                    (:persistent :godot-bindings
+                     :depends-on (:claw-utils)
+                     :asd-path "/home/jason/common-lisp/clawdot/src/godot-bindings.asd"
+                     :bindings-path "/home/jason/common-lisp/clawdot/src/bindings/")
+                    (:language :c++)
+                    (:standard :c++17)
+                    (:include-definitions "^godot::.*")
+                    (:exclude-definitions "^godot::.*::_.*" "godot::EditorPlugins.*" "^godot::internal::.*" "^godot::GetTypeInfo.*" "^godot::ClassDB.*" ".*_MethodBindings" ".*atomic.*" ".*_gde_.*"))
+    :in-package :%aw-godot
+    :trim-enum-prefix t
+    :recognize-bitfields t
+    :recognize-strings t
+    :with-adapter (:static
+                   :path "lib/adapter.cxx")
+    :symbolicate-names (:in-pipeline
+                        ;; (:by-removing-complex-prefix "^m[A-Z]\\w*" 1)
+                        (:by-removing-prefixes "gd"))
+    :override-types ((:string claw-utils:claw-string)
+                     (:pointer claw-utils:claw-pointer)
+                     (:char16 :uint16)
+                     (:char32 :uint32)
+                     (%AW-GODOT::CHAR16 :uint16)
+                     (%AW-GODOT::CHAR32 :uint32)
+                     ))
+
 
 ;; (:char16 :uint16)
                    ;; (:CHAR16 :uint16)
