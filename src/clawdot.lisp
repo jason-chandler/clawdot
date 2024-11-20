@@ -5,7 +5,9 @@
 
 (in-package :clawdot)
 
-(cffi:load-foreign-library "/home/jason/common-lisp/libresect.so")
+(if (member :darwin *features*)
+    (cffi:load-foreign-library "/Users/jason/common-lisp/libresect.dylib")
+    (cffi:load-foreign-library "/home/jason/common-lisp/libresect.so"))
 
 (defmacro defctype-helper (unknown-type)
   `(cffi:defctype ,unknown-type (claw-utils:claw-pointer :void)))
@@ -40,37 +42,15 @@
 
 (princ (collect-godot-cpp-headers))
 
-(let ((godot-cpp-headers (collect-godot-cpp-headers)))
-  (eval `(claw:defwrapper (:aw-godot
-                    (:system :clawdot/wrapper)
-                    (:headers "godot_cpp/classes/")
-                    (:includes :godot-includes :godot-gen-includes)
-                    (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
-                              ((:and :x86-64 :windows) "x86_64-pc-windows-gnu"))
-                    (:persistent :godot-bindings
-                     :depends-on (:claw-utils)
-                     :asd-path "/home/jason/common-lisp/clawdot/src/godot-bindings.asd"
-                     :bindings-path "/home/jason/common-lisp/clawdot/src/bindings/")
-                    (:language :c++)
-                    (:standard :c++17)
-                    (:include-definitions "^godot::.*" "GDExtensionPropertyInfo")
-                    (:exclude-definitions "^godot::.*::_.*" "godot::EditorPlugins.*" "^godot::internal::.*" "^godot::GetTypeInfo.*" "^godot::ClassDB.*" ".*_MethodBindings" ".*atomic.*" ".*_gde_.*"))
-    :in-package :%aw-godot
-    :trim-enum-prefix t
-    :recognize-bitfields t
-    :recognize-strings t
-    :with-adapter (:static
-                   :path "lib/adapter.cxx")
-    :symbolicate-names (:in-pipeline
-                        ;; (:by-removing-complex-prefix "^m[A-Z]\\w*" 1)
-                        (:by-removing-prefixes "gd"))
-    :override-types ((:string claw-utils:claw-string)
-                     (:pointer claw-utils:claw-pointer)
-		     (:char16 "char16_t")
-		     (:char32 "char32_t")
-                     (%AW-GODOT::CHAR16 "char16_t")
-                     (%AW-GODOT::CHAR32 "char32_t")
-                     ))))
+(defun ignore-uninstantiable ()
+  (claw.resect:ignore-some
+   (claw.resect:ignore-every
+    (claw.resect:ignore-names
+     "godot::Ref.*"
+     "godot::PropertyInfo.*")
+    (claw.resect:ignore-not
+     (claw.resect:ignore-names
+      "godot::Ref<.*")))))
 
 (claw:defwrapper (:aw-godot
                     (:system :clawdot/wrapper)
@@ -155,11 +135,12 @@
                               )
                     (:includes :godot-includes :godot-gen-includes)
                     (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
-                              ((:and :x86-64 :windows) "x86_64-pc-windows-gnu"))
+                              ((:and :x86-64 :windows) "x86_64-pc-windows-gnu")
+                              ((:and :aarch64 :darwin) "aarch64-pc-darwin-gnu"))
                     (:persistent :godot-bindings
                      :depends-on (:claw-utils)
-                     :asd-path "/home/jason/common-lisp/clawdot/src/godot-bindings.asd"
-                     :bindings-path "/home/jason/common-lisp/clawdot/src/bindings/")
+                     :asd-path "src/godot-bindings.asd"
+                     :bindings-path "src/bindings/")
                     (:language :c++)
                     (:standard :c++17)
                     (:include-definitions "^godot::.*")
@@ -168,6 +149,7 @@
     :trim-enum-prefix t
     :recognize-bitfields t
     :recognize-strings t
+  :ignore-entities (ignore-uninstantiable)
     :with-adapter (:static
                    :path "lib/adapter.cxx")
     :symbolicate-names (:in-pipeline
@@ -177,8 +159,6 @@
                      (:pointer claw-utils:claw-pointer)
                      (:char16 :uint16)
                      (:char32 :uint32)
-                     (%AW-GODOT::CHAR16 :uint16)
-                     (%AW-GODOT::CHAR32 :uint32)
                      ))
 
 
@@ -192,7 +172,6 @@
 ;; (claw:generate-wrapper :aw-godot)
 
 ;;(clawdot::generate-and-load-wrapper)
-
 
 
 
