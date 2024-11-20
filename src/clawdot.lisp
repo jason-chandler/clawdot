@@ -43,6 +43,11 @@
 (princ (collect-godot-cpp-headers))
 
 (defun ignore-uninstantiable ()
+  (claw.resect:ignore-functions
+   (:in-class "godot::PtrToArg<const char&>"
+              ("encode"))
+   (:in-class "godot::PtrToArg<char32*>"
+              (:dtor)))
   (claw.resect:ignore-some
    (claw.resect:ignore-every
     (claw.resect:ignore-names
@@ -50,7 +55,16 @@
      "godot::PropertyInfo.*")
     (claw.resect:ignore-not
      (claw.resect:ignore-names
-      "godot::Ref<.*")))))
+      "godot::Ref<.*"))
+    ;; (claw.resect:ignore-names
+     ;;"godot::Ref<World3D>.*"
+     ;;"godot::Ref<World2D>.*")
+    )))
+
+;; (defun instantiate-some (decl)
+;;   (when (and (string= "godot" (claw.resect:declaration-namespace decl))
+;;              (string= "Ref" (claw.resect:declaration-name decl)))
+;;     '(("World2D") ("World3D"))))
 
 (claw:defwrapper (:aw-godot
                     (:system :clawdot/wrapper)
@@ -106,7 +120,8 @@
                               "godot_cpp/classes/sprite3d.hpp"
                               "godot_cpp/classes/standard_material3d.hpp"
                               "godot_cpp/classes/static_body2d.hpp"
-                              "godot_cpp/classes/static_body3d.hpp"
+                              "godot_cpp/classes/world2d.hpp"
+                              "godot_cpp/classes/world3d.hpp"
                               "godot_cpp/variant/aabb.hpp"
                               "godot_cpp/variant/array.hpp"
                               "godot_cpp/variant/array_helpers.hpp"
@@ -134,22 +149,23 @@
                               "godot_cpp/variant/vector4i.hpp"
                               )
                     (:includes :godot-includes :godot-gen-includes)
+                    ;;(:instantiate #'instantiate-some)
                     (:targets ((:and :x86-64 :linux) "x86_64-pc-linux-gnu")
                               ((:and :x86-64 :windows) "x86_64-pc-windows-gnu")
                               ((:and :aarch64 :darwin) "aarch64-pc-darwin-gnu"))
                     (:persistent :godot-bindings
                      :depends-on (:claw-utils)
-                     :asd-path "src/godot-bindings.asd"
-                     :bindings-path "src/bindings/")
+                     :asd-path "godot-bindings.asd"
+                     :bindings-path "bindings/")
                     (:language :c++)
                     (:standard :c++17)
                     (:include-definitions "^godot::.*")
-                    (:exclude-definitions "^godot::.*::_.*" "godot::EditorPlugins.*" "^godot::internal::.*" "^godot::GetTypeInfo.*" "^godot::ClassDB.*" ".*_MethodBindings" ".*atomic.*" ".*_gde_.*"))
+                    (:exclude-definitions "^godot::.*::_.*" "^std::.*" "godot::EditorPlugins.*" "^godot::internal::.*" "^godot::GetTypeInfo.*" "^godot::ClassDB.*" ".*_MethodBindings" ".*atomic.*" ".*_gde_.*"))
     :in-package :%aw-godot
     :trim-enum-prefix t
     :recognize-bitfields t
     :recognize-strings t
-  :ignore-entities (ignore-uninstantiable)
+    :ignore-entities (ignore-uninstantiable)
     :with-adapter (:static
                    :path "lib/adapter.cxx")
     :symbolicate-names (:in-pipeline
