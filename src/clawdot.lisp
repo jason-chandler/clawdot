@@ -44,18 +44,66 @@
 
 (defun ignore-uninstantiable ()
   (claw.resect:ignore-functions
+   (:in-class "godot::GDExtensionBinding"
+              ("init"))
+   (:in-class "godot::GDExtensionBinding::InitObject"
+              (:ctor)
+              (:dtor))
+   (:in-class "godot::MethodBind"
+              ("get_argument_metadata")
+              ("get_argument_type"))
    (:in-class "godot::PtrToArg<const char&>"
+              ("convert")
               ("encode"))
+   (:in-class "godot::PtrToArg<char16*>"
+              (:ctor)
+              (:dtor))
+   (:in-class "godot::PtrToArg<const char16*>"
+              (:ctor)
+              (:dtor))
    (:in-class "godot::PtrToArg<char32*>"
+              (:ctor)
+              (:dtor))
+   (:in-class "godot::PtrToArg<const char32*>"
+              (:ctor)
+              (:dtor))
+   (:in-class "godot::PackedFloat64Array::ConstIterator"
+              (:ctor)
+              (:dtor))
+   (:in-class "godot::PackedInt64Array::ConstIterator"
+              (:ctor)
+              (:dtor))
+   (:in-class "godot::PackedVector2Array::ConstIterator"
+              (:ctor)
+              (:dtor))
+   (:in-class "godot::PackedVector3Array::ConstIterator"
+              (:ctor)
+              (:dtor))
+   (:in-class "godot::String"
+              (:ctor)
+              ("operator+" :any)
+              ("operator==" :any)
+              ("operator")
+              (:dtor))
+   (:in-class "godot::StringName"
+              (:ctor)
+              ("operator+" :any)
+              ("operator==" :any)
               (:dtor)))
   (claw.resect:ignore-some
    (claw.resect:ignore-every
     (claw.resect:ignore-names
      "godot::Ref.*"
-     "godot::PropertyInfo.*")
+     "godot::List.*"
+     "godot::List::Element.*"
+     "godot::PropertyInfo.*"
+     "godot::.*<char.*>.*")
     (claw.resect:ignore-not
      (claw.resect:ignore-names
-      "godot::Ref<.*"))
+      "godot::Ref<.*"
+      "godot::List<.*"
+      "godot::List::Element<.*"
+      "godot::List::Iterator<.*"))
     ;; (claw.resect:ignore-names
      ;;"godot::Ref<World3D>.*"
      ;;"godot::Ref<World2D>.*")
@@ -70,19 +118,35 @@
                     (:system :clawdot/wrapper)
                     (:headers "godot_cpp/classes/animatable_body2d.hpp"
                               "godot_cpp/classes/animatable_body3d.hpp"
+                              "godot_cpp/classes/animation.hpp"
+                              "godot_cpp/classes/animation_library.hpp"
                               "godot_cpp/classes/animation_player.hpp"
                               "godot_cpp/classes/area2d.hpp"
                               "godot_cpp/classes/area3d.hpp"
+                              "godot_cpp/classes/array_mesh.hpp"
                               "godot_cpp/classes/audio_listener2d.hpp"
                               "godot_cpp/classes/audio_listener3d.hpp"
+                              "godot_cpp/classes/audio_stream_ogg_vorbis.hpp"
+                              "godot_cpp/classes/audio_stream_playback.hpp"
                               "godot_cpp/classes/box_shape3d.hpp"
+                              "godot_cpp/classes/callback_tweener.hpp"
+                              "godot_cpp/classes/camera_attributes.hpp"
                               "godot_cpp/classes/camera2d.hpp"
                               "godot_cpp/classes/camera3d.hpp"
                               "godot_cpp/classes/character_body2d.hpp"
                               "godot_cpp/classes/character_body3d.hpp"
                               "godot_cpp/classes/collision_shape2d.hpp"
                               "godot_cpp/classes/collision_shape3d.hpp"
+                              "godot_cpp/classes/concave_polygon_shape2d.hpp"
+                              "godot_cpp/classes/concave_polygon_shape3d.hpp"
+                              "godot_cpp/classes/convex_polygon_shape2d.hpp"
+                              "godot_cpp/classes/convex_polygon_shape3d.hpp"
+                              "godot_cpp/classes/curve2d.hpp"
+                              "godot_cpp/classes/curve3d.hpp"
                               "godot_cpp/classes/cylinder_shape3d.hpp"
+                              "godot_cpp/classes/environment.hpp"
+                              "godot_cpp/classes/font.hpp"
+                              "godot_cpp/classes/image.hpp"
                               "godot_cpp/classes/input_event_action.hpp"
                               "godot_cpp/classes/input_event_key.hpp"
                               "godot_cpp/classes/input_event.hpp"
@@ -91,18 +155,30 @@
                               "godot_cpp/classes/input_event_mouse_button.hpp"
                               "godot_cpp/classes/input_event_mouse_motion.hpp"
                               "godot_cpp/classes/input_event_mouse.hpp"
+                              "godot_cpp/classes/interval_tweener.hpp"
                               "godot_cpp/classes/kinematic_collision2d.hpp"
                               "godot_cpp/classes/kinematic_collision3d.hpp"
                               "godot_cpp/classes/light2d.hpp"
                               "godot_cpp/classes/light3d.hpp"
                               "godot_cpp/classes/material.hpp"
+                              "godot_cpp/classes/mesh.hpp"
                               "godot_cpp/classes/mesh_instance2d.hpp"
                               "godot_cpp/classes/mesh_instance3d.hpp"
+                              "godot_cpp/classes/method_tweener.hpp"
+                              "godot_cpp/classes/multi_mesh.hpp"
+                              "godot_cpp/classes/multiplayer_api.hpp"
+                              "godot_cpp/classes/multiplayer_peer.hpp"
                               "godot_cpp/classes/node2d.hpp"
                               "godot_cpp/classes/node3d.hpp"
+                              "godot_cpp/classes/node3d_gizmo.hpp"
+                              "godot_cpp/classes/ogg_packet_sequence.hpp"
                               "godot_cpp/classes/object.hpp"
+                              "godot_cpp/classes/packed_scene.hpp"
                               "godot_cpp/classes/path2d.hpp"
                               "godot_cpp/classes/path3d.hpp"
+                              "godot_cpp/classes/physics_material.hpp"
+                              "godot_cpp/classes/physics_test_motion_parameters3d.hpp"
+                              "godot_cpp/classes/property_tweener.hpp"
                               "godot_cpp/classes/ray_cast2d.hpp"
                               "godot_cpp/classes/ray_cast3d.hpp"
                               "godot_cpp/classes/rectangle_shape2d.hpp"
@@ -114,12 +190,19 @@
                               "godot_cpp/classes/resource_importer_scene.hpp"
                               "godot_cpp/classes/rigid_body2d.hpp"
                               "godot_cpp/classes/rigid_body3d.hpp"
+                              "godot_cpp/classes/scene_state.hpp"
                               "godot_cpp/classes/scene_tree.hpp"
+                              "godot_cpp/classes/scene_tree_timer.hpp"
+                              "godot_cpp/classes/skin.hpp"
+                              "godot_cpp/classes/sky.hpp"
                               "godot_cpp/classes/sphere_shape3d.hpp"
                               "godot_cpp/classes/sprite2d.hpp"
                               "godot_cpp/classes/sprite3d.hpp"
                               "godot_cpp/classes/standard_material3d.hpp"
                               "godot_cpp/classes/static_body2d.hpp"
+                              "godot_cpp/classes/style_box.hpp"
+                              "godot_cpp/classes/triangle_mesh.hpp"
+                              "godot_cpp/classes/tween.hpp"
                               "godot_cpp/classes/world2d.hpp"
                               "godot_cpp/classes/world3d.hpp"
                               "godot_cpp/variant/aabb.hpp"
