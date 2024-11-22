@@ -43,18 +43,41 @@
 (princ (collect-godot-cpp-headers))
 
 (defun ignore-uninstantiable ()
+  (claw.resect:ignore-some
+   (claw.resect:ignore-every
+    (claw.resect:ignore-names
+     "godot::Ref.*"
+     "godot::List.*"
+     "godot::List::Element.*"
+     "godot::PropertyInfo.*"
+     "godot::.*<char.*>.*")
+    (claw.resect:ignore-not
+     (claw.resect:ignore-names
+      "godot::Ref<.*"
+      "godot::List<.*"
+      "godot::List::Element<.*"
+      "godot::List::Iterator<.*"))))
   (claw.resect:ignore-functions
    (:in-class "godot::GDExtensionBinding"
               ("init"))
    (:in-class "godot::GDExtensionBinding::InitObject"
               (:ctor)
+              ("InitObject" :any :any :any)
               (:dtor))
+   (:in-class "godot::List<godot::PropertyInfo>"
+              ("erase" :any)
+              ("sort"))
+   (:in-class "godot::CallableCustomBase"
+              ("call" :any :any))
    (:in-class "godot::MethodBind"
-              ("get_argument_metadata")
+              ("get_argument_metadata" :any)
               ("get_argument_type"))
    (:in-class "godot::PtrToArg<const char&>"
               ("convert")
-              ("encode"))
+              ("encode" :any :any))
+   (:in-class "godot::PtrToArg<const char32*>"
+              ("convert")
+              ("encode" :any :any))
    (:in-class "godot::PtrToArg<char16*>"
               (:ctor)
               (:dtor))
@@ -79,6 +102,9 @@
    (:in-class "godot::PackedVector3Array::ConstIterator"
               (:ctor)
               (:dtor))
+   (:in-class "godot::PropertyInfo"
+              ("operator<" :any)
+              ("operator=="))
    (:in-class "godot::String"
               (:ctor)
               ("operator+" :any)
@@ -89,25 +115,7 @@
               (:ctor)
               ("operator+" :any)
               ("operator==" :any)
-              (:dtor)))
-  (claw.resect:ignore-some
-   (claw.resect:ignore-every
-    (claw.resect:ignore-names
-     "godot::Ref.*"
-     "godot::List.*"
-     "godot::List::Element.*"
-     "godot::PropertyInfo.*"
-     "godot::.*<char.*>.*")
-    (claw.resect:ignore-not
-     (claw.resect:ignore-names
-      "godot::Ref<.*"
-      "godot::List<.*"
-      "godot::List::Element<.*"
-      "godot::List::Iterator<.*"))
-    ;; (claw.resect:ignore-names
-     ;;"godot::Ref<World3D>.*"
-     ;;"godot::Ref<World2D>.*")
-    )))
+              (:dtor))))
 
 ;; (defun instantiate-some (decl)
 ;;   (when (and (string= "godot" (claw.resect:declaration-namespace decl))
@@ -243,7 +251,7 @@
                     (:language :c++)
                     (:standard :c++17)
                     (:include-definitions "^godot::.*")
-                    (:exclude-definitions "^godot::.*::_.*" "^std::.*" "godot::EditorPlugins.*" "^godot::internal::.*" "^godot::GetTypeInfo.*" "^godot::ClassDB.*" ".*_MethodBindings" ".*atomic.*" ".*_gde_.*"))
+                    (:exclude-definitions "^godot::.*::_.*" "^godot::.*Array.*begin.*" "^godot::.*Array.*end.*" ".*wchar.*" ".*Wchar.*" "^std::.*" "godot::EditorPlugins.*" "^godot::internal::.*" "^godot::GetTypeInfo.*" "^godot::ClassDB.*" ".*_MethodBindings" ".*atomic.*" ".*_gde_.*"))
     :in-package :%aw-godot
     :trim-enum-prefix t
     :recognize-bitfields t
