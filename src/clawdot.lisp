@@ -43,79 +43,150 @@
 (princ (collect-godot-cpp-headers))
 
 (defun ignore-uninstantiable ()
-  (claw.resect:ignore-some
-   (claw.resect:ignore-every
-    (claw.resect:ignore-names
-     "godot::Ref.*"
-     "godot::List.*"
-     "godot::List::Element.*"
-     "godot::PropertyInfo.*"
-     "godot::.*<char.*>.*")
-    (claw.resect:ignore-not
-     (claw.resect:ignore-names
-      "godot::Ref<.*"
-      "godot::List<.*"
-      "godot::List::Element<.*"
-      "godot::List::Iterator<.*"))))
-  (claw.resect:ignore-functions
-   (:in-class "godot::GDExtensionBinding"
-              ("init"))
-   (:in-class "godot::GDExtensionBinding::InitObject"
-              (:ctor)
-              ("InitObject" :any :any :any)
-              (:dtor))
-   (:in-class "godot::List<godot::PropertyInfo>"
-              ("erase" :any)
-              ("sort"))
-   (:in-class "godot::CallableCustomBase"
-              ("call" :any :any))
-   (:in-class "godot::MethodBind"
-              ("get_argument_metadata" :any)
-              ("get_argument_type"))
-   (:in-class "godot::PtrToArg<const char&>"
-              ("convert")
-              ("encode" :any :any))
-   (:in-class "godot::PtrToArg<const char32*>"
-              ("convert")
-              ("encode" :any :any))
-   (:in-class "godot::PtrToArg<char16*>"
-              (:ctor)
-              (:dtor))
-   (:in-class "godot::PtrToArg<const char16*>"
-              (:ctor)
-              (:dtor))
-   (:in-class "godot::PtrToArg<char32*>"
-              (:ctor)
-              (:dtor))
-   (:in-class "godot::PtrToArg<const char32*>"
-              (:ctor)
-              (:dtor))
-   (:in-class "godot::PackedFloat64Array::ConstIterator"
-              (:ctor)
-              (:dtor))
-   (:in-class "godot::PackedInt64Array::ConstIterator"
-              (:ctor)
-              (:dtor))
-   (:in-class "godot::PackedVector2Array::ConstIterator"
-              (:ctor)
-              (:dtor))
-   (:in-class "godot::PackedVector3Array::ConstIterator"
-              (:ctor)
-              (:dtor))
-   (:in-class "godot::PropertyInfo"
-              ("operator<" :any)
-              ("operator=="))
-   (:in-class "godot::String"
-              (:ctor)
-              ("operator+" :any)
-              ("operator==" :any)
-              ("operator")
-              (:dtor))
-   (:in-class "godot::StringName"
-              (:ctor)
-              ("operator+" :any)
-              ("operator==" :any)
-              (:dtor))))
+  (lambda (e)
+    (funcall (claw.resect:ignore-some
+               (claw.resect:ignore-every
+                 (claw.resect:ignore-names
+                   "godot::Ref.*"
+                   "godot::List.*"
+                   "godot::List::Element.*"
+                   "godot::PropertyInfo.*"
+                   "godot::.*<char.*>.*")
+                 (claw.resect:ignore-not
+                  (claw.resect:ignore-names
+                    "godot::Ref<.*"
+                    "godot::List<.*"
+                    "godot::List::Element<.*"
+                    "godot::List::Iterator<.*")))) e)
+    (funcall (claw.resect:ignore-functions
+               (:in-class "godot::GDExtensionBinding"
+                          ("init"))
+               (:in-class "godot::GDExtensionBinding::InitObject"
+                          (:ctor)
+                          ("InitObject" :any :any :any)
+                          (:dtor))
+               (:in-class "godot::CallableCustom"
+                          ("call" :any :any :any :any))
+               (:in-class "godot::CallableCustomBase"
+                          ("call" :any :any))
+               (:in-class "godot::List::ConstIterator"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::List::Element"
+                          (:ctor)
+                          ("erase")
+                          (:dtor))
+               (:in-class "godot::List::Iterator"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::List<godot::PropertyInfo>"
+                          ("ConstIterator" :any)
+                          ("begin")
+                          ("end")
+                          ("erase" :any)
+                          ("sort_custom")
+                          ("sort_custom_inplace")
+                          ("sort"))
+               (:in-class "godot::List<godot::PropertyInfo>::ConstIterator"
+                          (:ctor :any :any)
+                          (:ctor :any)
+                          (:ctor)
+                          ("ConstIterator" :any)
+                          ("begin")
+                          ("end")
+                          (:dtor))
+               (:in-class "godot::MethodBind"
+                          ("bind_call" :any :any :any :any :any :any)
+                          ("bind_ptrcall" :any :any :any :any)
+                          ("call" :any :any :any "int*")
+                          ("get_arguments_metadata_list")
+                          ("get_argument_metadata" :any)
+                          ("get_argument_type")
+                          ("ptrcall" :any :any :any))
+               (:in-class "godot::PtrToArg<const char&>"
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any))
+               (:in-class "godot::PtrToArg<const char32*>"
+                          ("convert")
+                          ("encode" :any :any))
+               (:in-class "godot::PtrToArg<char>"
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any))
+               (:in-class "godot::PtrToArg<char16*>"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::PtrToArg<const char16*>"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::PtrToArg<char32*>"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::PtrToArg<const char32*>"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::PackedFloat64Array::ConstIterator"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::PackedInt64Array::ConstIterator"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::PackedVector2Array::ConstIterator"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::PackedVector3Array::ConstIterator"
+                          (:ctor)
+                          (:dtor))
+               (:in-class "godot::PropertyInfo"
+                          (:ctor :any :any :any :any :any :any)
+                          (:ctor :any)
+                          ("sort")
+                          ("operator<" :any)
+                          ("operator==" :any)
+                          (:dtor))
+               (:in-class "const godot::PropertyInfo"
+                          ("sort")
+                          ("operator<" :any)
+                          ("operator==" :any))
+               (:in-class "godot::Ref"
+                          (:ctor)
+                          (:ctor :any)
+                          ("instantiate")
+                          ("is_null")
+                          ("is_valid")
+                          ("operator=" :any)
+                          ("operator Variant")
+                          ("unref")
+                          ("~Ref<T>")
+                          (:dtor))
+               (:in-class "godot::RID"
+                          (:ctor :any)
+                          (:dtor))
+               (:in-class "godot::String"
+                          (:ctor)
+                          ("operator+" :any)
+                          ("operator==" :any)
+                          ("operator")
+                          (:dtor))
+               (:in-class "godot::StringName"
+                          (:ctor)
+                          ("operator+" :any)
+                          ("operator==" :any)
+                          (:dtor))
+               (:in-class "godot::TypedArray<char>"
+                          (:ctor :any)
+                          (:dtor))
+               (:in-class "godot::Variant"
+                          (:ctor :any)
+                          ("callp_static" :any :any :any :any :any :any)
+                          ("callp" :any :any :any :any :any)
+                          ("operator AABB")
+                          ("operator RID")
+                          ("operator Variant")
+                          (:dtor))) e)))
 
 ;; (defun instantiate-some (decl)
 ;;   (when (and (string= "godot" (claw.resect:declaration-namespace decl))
@@ -215,7 +286,6 @@
                               "godot_cpp/classes/world3d.hpp"
                               "godot_cpp/variant/aabb.hpp"
                               "godot_cpp/variant/array.hpp"
-                              "godot_cpp/variant/array_helpers.hpp"
                               "godot_cpp/variant/basis.hpp"
                               "godot_cpp/variant/builtin_types.hpp"
                               "godot_cpp/variant/callable.hpp"
@@ -264,9 +334,8 @@
                         (:by-removing-prefixes "gd"))
     :override-types ((:string claw-utils:claw-string)
                      (:pointer claw-utils:claw-pointer)
-                     (:char16 :uint16)
-                     (:char32 :uint32)
-                     ))
+                     ("char16" :uint16)
+                     ("char32" :uint32)))
 
 
 ;; (:char16 :uint16)
