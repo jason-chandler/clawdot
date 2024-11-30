@@ -3,6 +3,9 @@
 
 (uiop:define-package :%aw-godot)
 
+(cffi::defctype %aw-godot::char16 :uint16)
+(cffi::defctype %aw-godot::char32 :uint32)
+
 (in-package :clawdot)
 
 (if (member :darwin *features*)
@@ -84,6 +87,10 @@
                           ("begin")
                           ("end")
                           ("erase" :any)
+			  ("operator ConstIterator" :any)
+			  ("Iterator" :any)
+			  ("const operator ConstIterator" :any)
+			  ("operator ConstIterator const" :any)
                           ("sort_custom")
                           ("sort_custom_inplace")
                           ("sort"))
@@ -92,6 +99,20 @@
                           (:ctor :any)
                           (:ctor)
                           ("ConstIterator" :any)
+			  ("operator ConstIterator" :any)
+			  ("const operator ConstIterator" :any)
+			  ("operator ConstIterator const" :any)
+                          ("begin")
+                          ("end")
+                          (:dtor))
+	       (:in-class "godot::List<godot::PropertyInfo>::Iterator"
+                          (:ctor :any :any)
+                          (:ctor :any)
+                          (:ctor)
+                          ("ConstIterator" :any)
+			  ("operator ConstIterator" :any)
+			  ("const operator ConstIterator" :any)
+			  ("operator ConstIterator const" :any)
                           ("begin")
                           ("end")
                           (:dtor))
@@ -179,6 +200,9 @@
                (:in-class "godot::TypedArray<char>"
                           (:ctor :any)
                           (:dtor))
+	       (:in-class "godot::TypedArray<godot::CompositorEffect>"
+			  (:ctor :any)
+			  (:dtor))
                (:in-class "godot::Variant"
                           (:ctor :any)
                           ("callp_static" :any :any :any :any :any :any)
@@ -186,6 +210,55 @@
                           ("operator AABB")
                           ("operator RID")
                           ("operator Variant")
+                          (:dtor))
+	       (:in-class "godot::Vector<unsigned char>"
+			  (:ctor :any :any)
+                          (:ctor :any)
+                          (:ctor)
+                          ("ConstIterator" :any)
+			  ("get" :any)
+                          ("begin")
+                          ("end")
+                          (:dtor))
+	       (:in-class "godot::Vector<unsigned char>::ConstIterator"
+			  (:ctor :any :any)
+                          (:ctor :any)
+                          (:ctor)
+                          ("ConstIterator" :any)
+                          ("begin")
+                          ("end")
+                          (:dtor))
+	       (:in-class "godot::Vector<godot::StringName>::ConstIterator"
+			  (:ctor :any :any)
+                          (:ctor :any)
+                          (:ctor)
+                          ("ConstIterator" :any)
+                          ("begin")
+                          ("end")
+                          (:dtor))
+	       (:in-class "godot::Vector<godot::StringName>"
+			  (:ctor :any :any)
+                          (:ctor :any)
+                          (:ctor)
+                          ("ConstIterator" :any)
+                          ("begin")
+                          ("end")
+                          (:dtor))
+	       (:in-class "godot::Vector::ConstIterator"
+                          (:ctor :any :any)
+                          (:ctor :any)
+                          (:ctor)
+                          ("ConstIterator" :any)
+                          ("begin")
+                          ("end")
+                          (:dtor))
+	       (:in-class "godot::Vector::Iterator"
+			  (:ctor :any :any)
+                          (:ctor :any)
+                          (:ctor)
+                          ("ConstIterator" :any)
+                          ("begin")
+                          ("end")
                           (:dtor))) e)))
 
 ;; (defun instantiate-some (decl)
@@ -205,6 +278,8 @@
                               "godot_cpp/classes/array_mesh.hpp"
                               "godot_cpp/classes/audio_listener2d.hpp"
                               "godot_cpp/classes/audio_listener3d.hpp"
+			      "godot_cpp/classes/audio_sample.hpp"
+			      "godot_cpp/classes/audio_sample_playback.hpp"
                               "godot_cpp/classes/audio_stream_ogg_vorbis.hpp"
                               "godot_cpp/classes/audio_stream_playback.hpp"
                               "godot_cpp/classes/box_shape3d.hpp"
@@ -216,6 +291,7 @@
                               "godot_cpp/classes/character_body3d.hpp"
                               "godot_cpp/classes/collision_shape2d.hpp"
                               "godot_cpp/classes/collision_shape3d.hpp"
+			      "godot_cpp/classes/compositor.hpp"
                               "godot_cpp/classes/concave_polygon_shape2d.hpp"
                               "godot_cpp/classes/concave_polygon_shape3d.hpp"
                               "godot_cpp/classes/convex_polygon_shape2d.hpp"
@@ -273,6 +349,7 @@
                               "godot_cpp/classes/scene_tree.hpp"
                               "godot_cpp/classes/scene_tree_timer.hpp"
                               "godot_cpp/classes/skin.hpp"
+			      "godot_cpp/classes/skin_reference.hpp"
                               "godot_cpp/classes/sky.hpp"
                               "godot_cpp/classes/sphere_shape3d.hpp"
                               "godot_cpp/classes/sprite2d.hpp"
@@ -331,7 +408,7 @@
                    :path "lib/adapter.cxx")
     :symbolicate-names (:in-pipeline
                         ;; (:by-removing-complex-prefix "^m[A-Z]\\w*" 1)
-                        (:by-removing-prefixes "gd"))
+                        (:by-removing-prefixes "gd" "godot+"))
     :override-types ((:string claw-utils:claw-string)
                      (:pointer claw-utils:claw-pointer)
                      ("char16" :uint16)
