@@ -210,6 +210,8 @@
                           ("operator AABB")
                           ("operator RID")
                           ("operator Variant")
+                          ("blend" :any :any :any :any)
+                          ("interpolate" :any :any :any :any)
                           (:dtor))
 	       (:in-class "godot::Vector<unsigned char>"
 			  (:ctor :any :any)
@@ -408,7 +410,7 @@
                    :path "lib/adapter.cxx")
     :symbolicate-names (:in-pipeline
                         ;; (:by-removing-complex-prefix "^m[A-Z]\\w*" 1)
-                        (:by-removing-prefixes "gd" "godot+"))
+                        (:by-removing-prefixes "gd" "godot"))
     :override-types ((:string claw-utils:claw-string)
                      (:pointer claw-utils:claw-pointer)
                      ("char16" :uint16)
