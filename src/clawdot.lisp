@@ -62,6 +62,92 @@
                     "godot::List::Element<.*"
                     "godot::List::Iterator<.*")))) e)
     (funcall (claw.resect:ignore-functions
+	      (:in-class "godot::BitField<godot::KeyModifierMask>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::KeyModifierMask&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::KeyModifierMask>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::KeyModifierMask&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::Mesh::ArrayFormat>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::Mesh::ArrayFormat&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::Mesh::ArrayFormat>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::Mesh::ArrayFormat&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::MethodFlags>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::MethodFlags>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::MethodFlags&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::MethodFlags&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::MouseButtonMask>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::MouseButtonMask>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::MouseButtonMask&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::MouseButtonMask&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::Node::ProcessThreadMessages>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::Node::ProcessThreadMessages>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::Node::ProcessThreadMessages&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::Node::ProcessThreadMessages&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::PropertyUsageFlags>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::PropertyUsageFlags>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::PropertyUsageFlags&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::PropertyUsageFlags&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::JustificationFlag&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::JustificationFlag>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::JustificationFlag&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::JustificationFlag>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::FontStyle>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::FontStyle&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::FontStyle>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::FontStyle&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::GraphemeFlag>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::GraphemeFlag&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::GraphemeFlag>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::LineBreakFlag>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::LineBreakFlag>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::LineBreakFlag&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::LineBreakFlag&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::TextOverrunFlag>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::TextOverrunFlag>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<godot::TextServer::TextOverrunFlag&>"
+			 ("operator long"))
+	      (:in-class "godot::BitField<const godot::TextServer::TextOverrunFlag&>"
+			 ("operator long"))
                (:in-class "godot::GDExtensionBinding"
                           ("init"))
                (:in-class "godot::GDExtensionBinding::InitObject"
@@ -124,31 +210,272 @@
                           ("get_argument_metadata" :any)
                           ("get_argument_type")
                           ("ptrcall" :any :any :any))
+	       (:in-class "godot::ObjectId"
+			  (:ctor)
+			  ("operator long")
+			  (:dtor))
                (:in-class "godot::PtrToArg<const char&>"
+			  (:ctor)
                           ("convert")
                           ("convert" :any)
                           ("encode_arg" :any)
-                          ("encode" :any :any))
-               (:in-class "godot::PtrToArg<const char32*>"
+                          ("encode" :any :any)
+			  (:dtor))
+               (:in-class "godot::PtrToArg<const char*>"
+			  (:ctor)
                           ("convert")
-                          ("encode" :any :any))
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
                (:in-class "godot::PtrToArg<char>"
+			  (:ctor)
                           ("convert")
                           ("convert" :any)
                           ("encode_arg" :any)
-                          ("encode" :any :any))
+                          ("encode" :any :any)
+			  (:dtor))
                (:in-class "godot::PtrToArg<char16*>"
                           (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
                           (:dtor))
                (:in-class "godot::PtrToArg<const char16*>"
                           (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
                           (:dtor))
                (:in-class "godot::PtrToArg<char32*>"
                           (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
                           (:dtor))
                (:in-class "godot::PtrToArg<const char32*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+               (:in-class "godot::PtrToArg<const double&>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+               (:in-class "godot::PtrToArg<const double*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+               (:in-class "godot::PtrToArg<double>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+               (:in-class "godot::PtrToArg<const int&>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+               (:in-class "godot::PtrToArg<const int*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+               (:in-class "godot::PtrToArg<int>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<long>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<long*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<const long*>"
                           (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
                           (:dtor))
+	       (:in-class "godot::PtrToArg<const long&>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<short>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<short*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<const short*>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<const short&>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<unsigned char>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<unsigned char*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<const unsigned char*>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<const unsigned char&>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<unsigned int>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<unsigned int*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<const unsigned int*>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<const unsigned int&>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<unsigned long>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<unsigned long*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<const unsigned long*>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<const unsigned long&>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<unsigned short>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<unsigned short*>"
+			  (:ctor)
+                          ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+			  (:dtor))
+	       (:in-class "godot::PtrToArg<const unsigned short*>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<const unsigned short&>"
+                          (:ctor)
+			  ("convert")
+                          ("convert" :any)
+                          ("encode_arg" :any)
+                          ("encode" :any :any)
+                          (:dtor))
+	       (:in-class "godot::PtrToArg<godot::PhysicsServer3D::SpaceParameter>"
+			  (:ctor)
+			  (:dtor))
                (:in-class "godot::PackedFloat64Array::ConstIterator"
                           (:ctor)
                           (:dtor))
@@ -198,16 +525,46 @@
                           ("operator==" :any)
                           (:dtor))
                (:in-class "godot::TypedArray<char>"
+			  (:ctor)
                           (:ctor :any)
+                          ("operator=" :any)
+			  (:dtor))
+               (:in-class "godot::TypedArray<char*>"
+			  (:ctor)
+                          (:ctor :any)
+                          ("operator=" :any)
+			  (:dtor))
+	       (:in-class "godot::TypedArray<long>"
+			  (:ctor)
+                          (:ctor :any)
+			  ("operator=" :any)
+                          (:dtor))
+	       (:in-class "godot::TypedArray<long*>"
+			  (:ctor)
+                          (:ctor :any)
+			  ("operator=" :any)
+                          (:dtor))
+	       (:in-class "godot::TypedArray<unsigned long>"
+			  (:ctor)
+                          (:ctor :any)
+			  ("operator=" :any)
+                          (:dtor))
+	       (:in-class "godot::TypedArray<unsigned long*>"
+			  (:ctor)
+                          (:ctor :any)
+			  ("operator=" :any)
                           (:dtor))
 	       (:in-class "godot::TypedArray<godot::CompositorEffect>"
+			  (:ctor)
 			  (:ctor :any)
+			  ("operator=" :any)
 			  (:dtor))
                (:in-class "godot::Variant"
                           (:ctor :any)
                           ("callp_static" :any :any :any :any :any :any)
                           ("callp" :any :any :any :any :any)
                           ("operator AABB")
+			  ("operator long")
                           ("operator RID")
                           ("operator Variant")
                           ("blend" :any :any :any :any)
